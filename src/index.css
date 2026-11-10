@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Basera design tokens. Generated from the Basera design system (tokens v2).
+   shadcn variables use "H S% L%" so hsl(var(--primary)) works. Brand and status
+   variables hold plain colours: use var(--brand), var(--status-ok) and so on. */
+@layer base {
+  :root {
+    --background: 204 29% 97%;
+    --foreground: 207 51% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 207 51% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 207 51% 11%;
+    --primary: 152 51% 31%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 207 22% 92%;
+    --secondary-foreground: 207 51% 11%;
+    --muted: 207 22% 92%;
+    --muted-foreground: 207 14% 41%;
+    --accent: 150 38% 94%;
+    --accent-foreground: 207 51% 11%;
+    --destructive: 3 59% 45%;
+    --destructive-foreground: 204 29% 97%;
+    --border: 208 23% 89%;
+    --input: 206 13% 55%;
+    --ring: 152 51% 31%;
+    --brand: #2F895F;
+    --action-hover: #1F6845;
+    --border-strong: #7C8D9A;
+    --text-muted: #5B6B78;
+    --surface-inverse: #0E1E2B;
+    --text-inverse: #F4F7F9;
+    --accent-soft: #E9F5EF;
+    --status-ok: #1F6845;
+    --status-ok-bg: #E9F5EF;
+    --status-warning: #8A5A00;
+    --status-warning-bg: #FFF3D6;
+    --status-critical: #B8362F;
+    --status-critical-bg: #FDE9E7;
+    --status-info: #1A5FB8;
+    --status-info-bg: #E6F0FC;
+    --radius: 0.625rem;
+    --basera-green: #2F895F;
+    --aqua: #6AE9E7;
+    --deep-navy: #0E1E2B;
+    --gradient-brand: linear-gradient(90deg, #2F895F 0%, #6AE9E7 100%);
+  }
+  .dark {
+    --background: 207 51% 11%;
+    --foreground: 204 29% 97%;
+    --card: 207 53% 15%;
+    --card-foreground: 204 29% 97%;
+    --popover: 207 53% 15%;
+    --popover-foreground: 204 29% 97%;
+    --primary: 179 74% 66%;
+    --primary-foreground: 207 51% 11%;
+    --secondary: 205 46% 19%;
+    --secondary-foreground: 204 29% 97%;
+    --muted: 205 46% 19%;
+    --muted-foreground: 207 19% 72%;
+    --accent: 178 74% 66% / 0.12;
+    --accent-foreground: 204 29% 97%;
+    --destructive: 359 80% 71%;
+    --destructive-foreground: 207 51% 11%;
+    --border: 208 45% 24%;
+    --input: 207 21% 47%;
+    --ring: 179 74% 66%;
+    --brand: #6AE9E7;
+    --action-hover: #A6F2F0;
+    --border-strong: #5F7C93;
+    --text-muted: #A9B8C4;
+    --surface-inverse: #1A3447;
+    --text-inverse: #F4F7F9;
+    --accent-soft: rgba(106,233,231,0.12);
+    --status-ok: #7BDDA9;
+    --status-ok-bg: rgba(123,221,169,0.14);
+    --status-warning: #E9A93B;
+    --status-warning-bg: rgba(233,169,59,0.14);
+    --status-critical: #F0797B;
+    --status-critical-bg: rgba(240,121,123,0.14);
+    --status-info: #6AA9F2;
+    --status-info-bg: rgba(106,169,242,0.14);
+  }
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; font-family: 'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif; }
+}
