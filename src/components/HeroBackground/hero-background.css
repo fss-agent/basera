@@ -1,0 +1,211 @@
+/* Basera hero background. Colours come from the tokens in src/index.css, so it follows
+   the light and dark themes. One 12s loop; every animation uses the same duration, so
+   the loop is seamless. Percentages below are seconds / 12:
+   amber detection 29-35% (3.5-4.2s), hold to 62%, return by 82% (9.8s);
+   scanning wave 36-78% (4.3-9.4s); network.ts PINGS and WAVE mirror these. */
+
+.hero-bg {
+  --hb-loop: 12s;
+  --hb-mint: color-mix(in srgb, var(--aqua) 55%, var(--basera-green));
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: layout paint style;
+  /* Quiet left half: nothing shows until about a quarter in, full strength past the middle. */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 24%, #000 56%);
+  mask-image: linear-gradient(90deg, transparent 0%, transparent 24%, #000 56%);
+}
+
+.hero-bg__glow {
+  position: absolute;
+  inset: -10% -5% -10% 28%;
+  background: radial-gradient(
+    closest-side at 62% 50%,
+    color-mix(in srgb, var(--hb-mint) 38%, transparent),
+    color-mix(in srgb, var(--hb-mint) 14%, transparent) 55%,
+    transparent 100%
+  );
+  opacity: 0.9;
+  animation: hb-breathe var(--hb-loop) ease-in-out infinite;
+}
+
+.dark .hero-bg__glow {
+  background: radial-gradient(
+    closest-side at 62% 50%,
+    color-mix(in srgb, var(--hb-mint) 22%, transparent),
+    color-mix(in srgb, var(--hb-mint) 8%, transparent) 55%,
+    transparent 100%
+  );
+}
+
+.hero-bg__svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 68%;
+  height: 100%;
+  display: block;
+}
+
+.hero-bg__edge {
+  fill: none;
+  stroke: var(--brand);
+  stroke-opacity: 0.3;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.hero-bg__ring {
+  fill: none;
+  stroke: var(--brand);
+  stroke-opacity: 0.2;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.hero-bg__dot {
+  fill: var(--brand);
+  fill-opacity: 0.65;
+}
+
+/* Pulses: a short dash travels along a connection (pathLength is 100). */
+.hero-bg__pulse {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  stroke-dasharray: 6 200;
+  stroke-dashoffset: 6;
+  opacity: 0;
+  animation: hb-travel var(--hb-loop) linear infinite;
+  animation-delay: calc(var(--t) - var(--hb-loop));
+}
+
+.hero-bg__wave {
+  opacity: 0;
+  animation: hb-wave var(--hb-loop) linear infinite;
+  will-change: transform, opacity;
+}
+.hero-bg__wave-stop {
+  stop-color: var(--hb-mint);
+  stop-opacity: 0.16;
+}
+.hero-bg__wave-stop--edge {
+  stop-opacity: 0;
+}
+
+.hero-bg__ping {
+  fill: none;
+  stroke: var(--brand);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hb-ping var(--hb-loop) ease-out infinite;
+  animation-delay: calc(var(--t) - var(--hb-loop));
+}
+
+/* Detected change: the node eases to a muted amber, holds, then returns to green. */
+.hero-bg__amber {
+  opacity: 0;
+  animation: hb-amber var(--hb-loop) ease-in-out infinite;
+}
+.hero-bg__amber-halo {
+  fill: var(--status-warning);
+  fill-opacity: 0.1;
+}
+.hero-bg__amber-ring {
+  fill: none;
+  stroke: var(--status-warning);
+  stroke-opacity: 0.45;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.hero-bg__amber-dot {
+  fill: var(--status-warning);
+  fill-opacity: 0.8;
+}
+.hero-bg__alert {
+  fill: none;
+  stroke: var(--status-warning);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hb-alert var(--hb-loop) ease-out infinite;
+}
+
+@keyframes hb-breathe {
+  0%, 100% { opacity: 0.82; }
+  50% { opacity: 1; }
+}
+@keyframes hb-travel {
+  0% { stroke-dashoffset: 6; opacity: 0; }
+  4% { opacity: 0.9; }
+  36% { opacity: 0.9; }
+  40%, 100% { stroke-dashoffset: -100; opacity: 0; }
+}
+@keyframes hb-wave {
+  0%, 36% { transform: translateX(0); opacity: 0; }
+  42%, 72% { opacity: 1; }
+  78%, 100% { transform: translateX(860px); opacity: 0; }
+}
+@keyframes hb-ping {
+  0% { opacity: 0; transform: scale(0.8); }
+  1% { opacity: 0.4; }
+  10%, 100% { opacity: 0; transform: scale(2); }
+}
+@keyframes hb-amber {
+  0%, 29% { opacity: 0; }
+  35%, 62% { opacity: 1; }
+  82%, 100% { opacity: 0; }
+}
+@keyframes hb-alert {
+  0%, 29% { opacity: 0; transform: scale(0.8); }
+  31% { opacity: 0.5; }
+  46%, 100% { opacity: 0; transform: scale(2.6); }
+}
+
+/* Mobile: fewer elements, no wave or pings, softer overall. */
+@media (max-width: 767px) {
+  .hero-bg__lg,
+  .hero-bg__wave,
+  .hero-bg__scan {
+    display: none;
+  }
+  .hero-bg {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 60%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 60%);
+  }
+  .hero-bg__glow {
+    animation: none;
+    opacity: 0.55;
+  }
+  .hero-bg__svg {
+    width: 100%;
+    opacity: 0.55;
+  }
+}
+
+/* Reduced motion: a static background (glow, lines and nodes), nothing moves. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg__glow,
+  .hero-bg__pulse,
+  .hero-bg__wave,
+  .hero-bg__ping,
+  .hero-bg__amber,
+  .hero-bg__alert {
+    animation: none;
+  }
+  .hero-bg__pulse,
+  .hero-bg__wave,
+  .hero-bg__ping,
+  .hero-bg__amber,
+  .hero-bg__alert {
+    opacity: 0;
+  }
+}
